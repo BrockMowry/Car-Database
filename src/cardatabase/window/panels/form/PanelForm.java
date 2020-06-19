@@ -93,10 +93,6 @@ public class PanelForm extends JPanel {
 		this.setBorder(BorderFactory.createCompoundBorder(outer, inner));
 	}
 	
-	/**
-	 * I LOVE STACKOVERFLOW.com
-	 */
-	
 	public void addSubmitListener(final SubmitListener event) {
 		this.eventListenerList.add(SubmitListener.class, event);
 	}

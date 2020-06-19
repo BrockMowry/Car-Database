@@ -1,15 +1,14 @@
 package cardatabase.window.panels.form.panels;
 
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-
-import cardatabase.utils.SpringUtilities;
 
 public class Form extends JPanel {
 	
@@ -23,22 +22,33 @@ public class Form extends JPanel {
 	private final String[] labels = { "Brand", "Model", "Year", "Engine", "Kms", "Color", "Price" };
 	
 	public Form() {
-		super(new SpringLayout());
+		final GridBagLayout layout = new GridBagLayout();
+		layout.columnWidths = new int[] { 86, 86, 0 };
+		layout.rowHeights = new int[] { 20, 20, 20, 20, 20, 20, 20, 0 };
+		layout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		layout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		
-		final Dimension dimension = this.getPreferredSize();
+		this.setLayout(layout);
 		
-		for (final String label : this.labels) {
-			final JLabel jLabel = new JLabel(label + ":");
+		for (int i = 0; i < this.labels.length; i++) {
+			final JLabel jLabel = new JLabel(this.labels[i] + ":");
+			final GridBagConstraints labelConstraints = new GridBagConstraints();
+			labelConstraints.fill = GridBagConstraints.BOTH;
+			labelConstraints.insets = new Insets(5, 10, 10, 10);
+			labelConstraints.gridx = 0;
+			labelConstraints.gridy = i;
+			this.add(jLabel, labelConstraints);
+			
 			final JTextField textField = new JTextField();
-			jLabel.setLabelFor(textField);
+			final GridBagConstraints textConstraints = new GridBagConstraints();
+			textConstraints.fill = GridBagConstraints.BOTH;
+			textConstraints.insets = new Insets(5, 10, 10, 10);
+			textConstraints.gridx = 1;
+			textConstraints.gridy = i;
+			this.add(textField, textConstraints);
 			
-			this.add(jLabel);
-			this.add(textField);
-			
-			this.textFields.put(label, textField);
+			this.textFields.put(this.labels[i], textField);
 		}
-		
-		SpringUtilities.makeCompactGrid(this, this.labels.length, 2, 10, 40, 10, 35);
 	}
 	
 	public Map<String, JTextField> getTextFields() {
