@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 import cardatabase.car.Car;
 import cardatabase.car.CarManager;
-import cardatabase.utils.file.FileUtilities;
+import cardatabase.utils.FileUtilities;
 import cardatabase.window.panels.PanelHeader;
 import cardatabase.window.panels.database.PanelDatabase;
 import cardatabase.window.panels.form.PanelForm;
@@ -45,9 +45,9 @@ public class Window extends JFrame {
 		
 		this.carManager = new CarManager();
 		
-		this.fileUtilities = new FileUtilities();
+		this.fileUtilities = new FileUtilities(this);
 		try {
-			this.fileUtilities.loadFile(this);
+			this.fileUtilities.loadFile();
 		} catch (final Exception exception) {
 			exception.printStackTrace();
 		}
@@ -61,6 +61,12 @@ public class Window extends JFrame {
 			public void submitTriggered(final SubmitEvent event) {
 				carManager.addCar(event.getCar());
 				database.addCarToDatabase(event.getCar());
+				
+				try {
+					fileUtilities.saveFile();
+				} catch (final Exception exception) {
+					exception.printStackTrace();
+				}
 				
 				for (final JTextField field : form.form.getTextFields().values()) {
 					field.setText("");
@@ -110,7 +116,7 @@ public class Window extends JFrame {
 				JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 		if (option == 0) {
 			try {
-				this.fileUtilities.saveFile(this);
+				this.fileUtilities.saveFile();
 			} catch (final Exception exception) {
 				exception.printStackTrace();
 			}

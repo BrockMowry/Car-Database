@@ -20,8 +20,8 @@ public class Button extends JPanel {
 		this.submit.setPreferredSize(new Dimension(225, 30));
 		this.submit.setForeground(Window.TITLES);
 		this.submit.setBackground(Window.BACKGROUND);
-		this.submit.setFocusPainted(false);
 		this.submit.setBorderPainted(false);
+		this.submit.setOpaque(true);
 
 		this.submit.addMouseListener(new MouseAdapter() {
 			@Override

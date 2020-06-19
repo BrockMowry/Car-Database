@@ -1,4 +1,4 @@
-package cardatabase.utils.file;
+package cardatabase.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,9 +12,14 @@ import cardatabase.window.panels.database.PanelDatabase;
 
 public class FileUtilities {
 	
+	private final Window window;
 	private final File carFile = new File(System.getProperty("user.home"), "cars.car");
 	
-	public void loadFile(final Window window) throws Exception {
+	public FileUtilities(final Window window) {
+		this.window = window;
+	}
+	
+	public void loadFile() throws Exception {
 		if (!this.carFile.exists()) {
 			this.carFile.createNewFile();
 			return;
@@ -24,27 +29,29 @@ public class FileUtilities {
 		
 		final FileInputStream input = new FileInputStream(this.carFile);
 		final ObjectInputStream objectInput = new ObjectInputStream(input);
-		
-		/**
-		 * THROWS AN ERROR TO THE CONSOLE, but it works
-		 */
-		boolean loop = true;
-		while (loop) {
-			final Object object = objectInput.readObject();
+
+		try {
+			boolean loop = true;
 			
-			if (object != null) {
-				window.carManager.addCar((Car) object);
-				Car.carCount++;
-			} else {
+			while (loop) {
+				final Object object = objectInput.readObject();
+				
+				if (object != null) {
+					this.window.carManager.addCar((Car) object);
+					Car.carCount++;
+					
+					continue;
+				}
+				
 				loop = false;
 			}
-		}
+		} catch (final Exception exception) {}
 		
 		objectInput.close();
 		input.close();
 	}
 	
-	public void saveFile(final Window window) throws Exception {
+	public void saveFile() throws Exception {
 		if (!this.carFile.exists()) {
 			this.carFile.createNewFile();
 		}
@@ -52,7 +59,7 @@ public class FileUtilities {
 		final FileOutputStream output = new FileOutputStream(this.carFile);
 		final ObjectOutputStream objectOutput = new ObjectOutputStream(output);
 		
-		for (final Car car : window.carManager.getCars()) {
+		for (final Car car : this.window.carManager.getCars()) {
 			objectOutput.writeObject(car);
 		}
 		
