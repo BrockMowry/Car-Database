@@ -11,13 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Form extends JPanel {
-	
-	/**
-	 * Using a map to store the textfields was a great choice because it allows me to do:
-	 * map.get("Make").getValue() -> returns the make text field.
-	 * 
-	 * Maps should be bonus marks right?
-	 */
+
 	private final Map<String, JTextField> textFields = new HashMap<>();
 	private final String[] labels = { "Brand", "Model", "Year", "Engine", "Kms", "Color", "Price" };
 	
