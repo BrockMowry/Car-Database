@@ -54,6 +54,7 @@ public class PanelDatabase extends JPanel {
 			}
 		});
 		popupMenu.add(remove);
+		table.setComponentPopupMenu(popupMenu);
 		
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		
