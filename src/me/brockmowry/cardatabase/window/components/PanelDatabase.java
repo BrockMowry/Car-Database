@@ -59,7 +59,11 @@ public class PanelDatabase extends JPanel {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		
 		final EmptyBorder inner = new EmptyBorder(5, 5, 5, 5);
+<<<<<<< HEAD
 		final CompoundBorder outer = new CompoundBorder(new EmptyBorder(5, 5, 5, 5), new TitledBorder("Database"));
+=======
+		final CompoundBorder outer = new CompoundBorder(new EmptyBorder(5, 0, 5, 5), new TitledBorder("Database"));
+>>>>>>> branch 'master' of https://github.com/BrockMowry/Car-Database.git
 		setBorder(BorderFactory.createCompoundBorder(outer, inner));
 	}
 	
