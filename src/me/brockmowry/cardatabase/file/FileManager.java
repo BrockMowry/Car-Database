@@ -19,15 +19,19 @@ public class FileManager {
 	}
 
 	public void loadFile() throws Exception {
-		if (!carFile.exists()) {
-			carFile.createNewFile();
+		loadFile(carFile);
+	}
+	
+	public void loadFile(final File file) throws Exception {
+		if (!file.exists()) {
+			file.createNewFile();
 			return;
 		}
 
-		if (carFile.length() == 0)
+		if (file.length() == 0)
 			return;
 
-		final FileInputStream input = new FileInputStream(carFile);
+		final FileInputStream input = new FileInputStream(file);
 		final ObjectInputStream objectInput = new ObjectInputStream(input);
 
 		try {
@@ -38,6 +42,7 @@ public class FileManager {
 
 				if (object != null) {
 					window.getCarManager().addCar((Car) object);
+					window.getDatabase().addCar((Car) object);
 					Car.carCount++;
 
 					continue;
@@ -56,7 +61,7 @@ public class FileManager {
 			carFile.createNewFile();
 		}
 
-		final FileOutputStream output = new FileOutputStream(carFile);
+		final FileOutputStream output = new FileOutputStream(carFile, false);
 		final ObjectOutputStream objectOutput = new ObjectOutputStream(output);
 
 		for (final Car car : window.getCarManager().getCars()) {

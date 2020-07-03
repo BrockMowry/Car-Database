@@ -138,7 +138,17 @@ public class PanelForm extends JPanel {
 		final CompoundBorder outer = new CompoundBorder(new EmptyBorder(5, 5, 5, 5), new TitledBorder("Add Car"));
 		setBorder(BorderFactory.createCompoundBorder(outer, inner));
 	}
+	
+	public void clear() {
+		for (final JTextField field : textFields.values()) {
+			field.setText("");
+		}
+	}
 
+	public void addSubmitListener(final SubmitListener listener) {
+		eventListenerList.add(SubmitListener.class, listener);
+	}
+	
 	private void fireSubmitEvent(final SubmitEvent event) {
 		final Object[] listeners = eventListenerList.getListenerList();
 
@@ -147,10 +157,6 @@ public class PanelForm extends JPanel {
 				((SubmitListener) listeners[i + 1]).submitTriggered(event);
 			}
 		}
-	}
-	
-	public void addSubmitListener(final SubmitListener listener) {
-		eventListenerList.add(SubmitListener.class, listener);
 	}
 	
 	public boolean areTextFieldsEmpty() {

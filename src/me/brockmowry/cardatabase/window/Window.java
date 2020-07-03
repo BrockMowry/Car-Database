@@ -9,6 +9,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 import me.brockmowry.cardatabase.CarDatabase;
 import me.brockmowry.cardatabase.car.Car;
 import me.brockmowry.cardatabase.car.CarManager;
+import me.brockmowry.cardatabase.file.CarFileFilter;
 import me.brockmowry.cardatabase.file.FileManager;
 import me.brockmowry.cardatabase.window.components.MenuBar;
 import me.brockmowry.cardatabase.window.components.PanelDatabase;
@@ -32,6 +34,8 @@ public class Window extends JFrame {
 	
 	private final CarManager carManager;
 	private final FileManager fileManager;
+	
+	private final JFileChooser fileChooser;
 
 	public Window() {
 		super("Car Database | " + CarDatabase.VERSION);
@@ -40,11 +44,10 @@ public class Window extends JFrame {
 		carManager = new CarManager();
 		
 		fileManager = new FileManager(this);
-		try {
-			fileManager.loadFile();
-		} catch (final Exception exception) {
-			exception.printStackTrace();
-		}
+		
+		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new CarFileFilter());
+		fileChooser.setAcceptAllFileFilterUsed(false);
 		
 		menuBar = new MenuBar(this);
 		setJMenuBar(menuBar);
@@ -67,8 +70,10 @@ public class Window extends JFrame {
 		add(form, BorderLayout.WEST);
 		
 		database = new PanelDatabase(this);
-		for (final Car car : carManager.getCars()) {
-			database.addCar(car);
+		try {
+			fileManager.loadFile();
+		} catch (final Exception exception) {
+			exception.printStackTrace();
 		}
 		
 		add(database, BorderLayout.CENTER);
@@ -121,6 +126,14 @@ public class Window extends JFrame {
 	
 	public CarManager getCarManager() {
 		return carManager;
+	}
+	
+	public FileManager getFileManager() {
+		return fileManager;
+	}
+	
+	public JFileChooser getFileChooser() {
+		return fileChooser;
 	}
 
 }

@@ -14,6 +14,10 @@ public class CarManager {
 	public void removeCar(final Car car) {
 		this.carList.remove(car);
 	}
+	
+	public void clear() {
+		carList.clear();
+	}
 
 	public List<Car> getCars() {
 		return this.carList;
